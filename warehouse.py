@@ -23,19 +23,22 @@ import pickle
 #global vars
 
 catalog = []
-
+last_id = 0
+data_file = 'warehouse.data'
 
 
 #functions
 
 def serialize_catalog():
-    writer = open('warehouse.data', 'wb') # wb will create/overwrite the file
+    global data_file
+    writer = open(data_file, 'wb') # wb will create/overwrite the file
     pickle.dump(catalog, writer)
     writer.close()
     print('Data saved!')
 
 def deserialize_catalog():
-    reader = open('warehouse.data', 'rb') # rb will read the binary file/ throw exception if file doesn't exist
+    global data_file
+    reader = open(data_file, 'rb') # rb will read the binary file/ throw exception if file doesn't exist
     temp_list = pickle.load(reader)
 
     for item in temp_list:
@@ -47,13 +50,15 @@ def deserialize_catalog():
 
 def register_item():
     clear()
+    global last_id
     print_header("Register new Item")
     title = input('Please provide the title: ')
     category = input ('Name the category: ')
     stock = int(input('Please provide the stock: '))
     price = float(input('Please provide the Price: '))
 
-    the_item = Item(1, title, category, stock, price)
+    the_item = Item(last_id, title, category, stock, price)
+    last_id += 1
     # add the obj to the list
     catalog.append(the_item)
 
