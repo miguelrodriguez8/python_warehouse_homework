@@ -47,7 +47,7 @@ def deserialize_catalog():
     how_many = len(catalog)
     print(' Deserialized ' + str(how_many) + ' items')
 
-
+ 
 def register_item():
     clear()
     global last_id
