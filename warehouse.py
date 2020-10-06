@@ -38,32 +38,44 @@ def serialize_catalog():
 
 def deserialize_catalog():
     global data_file
-    reader = open(data_file, 'rb') # rb will read the binary file/ throw exception if file doesn't exist
-    temp_list = pickle.load(reader)
+    global last_id
+    try:
+        reader = open(data_file, 'rb') # rb will read the binary file/ throw exception if file doesn't exist
+        temp_list = pickle.load(reader)
 
-    for item in temp_list:
-        catalog.append(item)
+        for item in temp_list:
+            catalog.append(item)
 
-    how_many = len(catalog)
-    print(' Deserialized ' + str(how_many) + ' items')
+        last = catalog[-1]
+        last_id = last_id + 1
+        how_many = len(catalog)
+        print(' Deserialized ' + str(how_many) + ' items')
 
+    except:
+        print('Error, no data loaded')
  
 def register_item():
     clear()
     global last_id
-    print_header("Register new Item")
-    title = input('Please provide the title: ')
-    category = input ('Name the category: ')
-    stock = int(input('Please provide the stock: '))
-    price = float(input('Please provide the Price: '))
+    try:
+        print_header("Register new Item")
+        title = input('Please provide the title: ')
+        category = input ('Name the category: ')
+        stock = int(input('Please provide the stock: '))
+        price = float(input('Please provide the Price: '))
 
-    the_item = Item(last_id, title, category, stock, price)
-    last_id += 1
-    # add the obj to the list
-    catalog.append(the_item)
+        the_item = Item(last_id, title, category, stock, price)
+        last_id += 1
+        # add the obj to the list
+        catalog.append(the_item)
 
-    count = len(catalog)
-    print('Item saved, you have ' + str(count) + ' items in your catalog')
+        count = len(catalog)
+        print('Item saved, you have ' + str(count) + ' items in your catalog')
+
+    except ValueError:
+         print('*Error. Provide valid numbers')    
+    except:
+         print('*Wrong entry. Please try again')
 
 
 def display_catalog():
@@ -85,6 +97,44 @@ def total_stock_value():
 
     print('The total is: $' + str(total))
 
+def update_price():
+    display_catalog()
+    id = input("select the Id number: ")
+    found = False
+    for item in catalog:
+        if(str(item.id) == id):
+            found = True
+            price = float(input('Provide new price $'))
+            item.price = price
+
+    if(not found):
+        print("*Error, invalid ID Please Try Again.")        
+
+
+
+
+
+
+
+
+
+
+def delete_item():
+    display_catalog()
+    id = input("select the Id number: ")
+    found = False
+    for item in catalog:
+        if(str(item.id) == id):
+            found = True
+            del catalog[int(id)]
+            print('*Item has been removed')
+
+    if(not found):
+        print("*Error, invalid ID Please Try Again.") 
+
+       
+
+ 
 
 #instructions
 deserialize_catalog()
@@ -110,7 +160,24 @@ while(opc != 'x'):
     elif(opc == '4'):
         total_stock_value()
 
+    elif(opc == '5'):
+        update_price()
+        serialize_catalog()
+
+    elif(opc == '6'):
+        delete_item()
+        serialize_catalog()    
 
     input('Press Enter to continue...')    
+
+
+""""
+-show the catalog
+-ask the user to choose an id
+-find the id in the catalog
+-  ask for the new price
+-  set the price
+-else, show an error
+"""  
 
   
