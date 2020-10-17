@@ -1,10 +1,11 @@
 import os
+import datetime
 
 def print_menu():
-    print("_" * 30)
+    print("_" * 43)
 
-    print("Warehouse control")
-    print("_" * 30)
+    print("Warehouse control   " + "[" + get_date_time() + "]")
+    print("_" * 43)
 
     print('[1] Register new item')
     print('[2] Display catalog')
@@ -12,20 +13,31 @@ def print_menu():
     print('[4] Stock value')
     print('[5] Update price')
     print('[6] Delete item')
-
+    print('[7] Update item stock')
+    print('[8] Display category')
+    print('[9] Cheapest product')
+    print('[10] 3 most expensive products')
 
     print('[x] Close')
 
+
+def get_date_time():
+    now = datetime.datetime.now()
+    return now.strftime("%b/%d/%Y %T")
+
 def clear():
     command = 'clear'
-    if(os.name == 'nt'):
+    if (os.name == 'nt'):
         command = 'cls'
     return os.system(command)
-    
 
 
 def print_item(item):
-    print(str(item.id).ljust(2) + " | " + item.title.ljust(12) + " | " + item.category.rjust(5) + " | " + str(item.stock) + " | " + '$' + str(item.price))
+    print(
+        str(item.id).ljust(2) + " | " + item.title.ljust(12) + " | " +
+        item.category.ljust(10) + " | " + str(item.stock) + " | " + '$' +
+        str(item.price))
+
 
 def print_header(title):
     clear()

@@ -114,11 +114,6 @@ def update_price():
 
 
 
-   
-
-
-
-
 def delete_item():
     display_catalog()
     id = input("select the Id number: ")
@@ -132,7 +127,57 @@ def delete_item():
     if(not found):
         print("*Error, invalid ID Please Try Again.") 
 
-       
+
+def update_item_stock():
+    display_catalog()
+    id = input("select the Id number: ")
+    found = False
+    for item in catalog:
+        if(str(item.id) == id):
+            found = True
+            stock = float(input('Provide new stock number: '))
+            item.stock = stock
+
+    if(not found):
+        print("*Error, invalid stock number. Please Try Again.")        
+
+
+def display_category():
+    print_header("Unique categories")
+    temp = []
+    for item in catalog:
+        if(not item.category in temp):
+            temp.append(item.category)
+            print(item.category)
+
+def cheapest_product():
+    print_header("Cheapest Product")
+    cheapest = catalog[0]
+    for item in catalog:
+        if(item.price < cheapest.price):
+            cheapest = item
+
+    print_item(cheapest) 
+
+
+def expensive_products():
+    print_header("The 3 most expensive products:")
+    prices = []
+    for item in catalog:
+        prices.append(item.price)
+
+    prices.sort(reverse=True)
+
+    print(prices[0]) #find the product that has this price, print_item(product)
+    print(prices[1]) #find the product that has this price, print_item(product)
+    print(prices[2]) #find the product that has this price, print_item(product)
+
+    for item in catalog:
+        if item.price == prices[0, 1, 2]:
+            print_item(item)
+        
+
+
 
  
 
@@ -166,7 +211,20 @@ while(opc != 'x'):
 
     elif(opc == '6'):
         delete_item()
-        serialize_catalog()    
+        serialize_catalog()
+
+    elif(opc == '7'):
+        update_item_stock()
+        serialize_catalog()
+
+    elif(opc == '8'):
+        display_category()
+
+    elif(opc == '9'):
+        cheapest_product()          
+
+    elif(opc == '10'):
+        expensive_products()          
 
     input('Press Enter to continue...')    
 
